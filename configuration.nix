@@ -52,6 +52,7 @@
       acpi
       acpitool
       xorg.xbacklight
+      proxychains
    ];
   nixpkgs.config.allowUnfree = true;
   # Some programs need SUID wrappers, can be configured further or are
