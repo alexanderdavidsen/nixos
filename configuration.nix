@@ -35,20 +35,31 @@
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
    environment.systemPackages = with pkgs; [
-    wget 
-		vim 
-		curl 
-		i3-gaps 
-		i3blocks-gaps 
-		i3lock-pixeled 
-		fish 
-		networkmanager 
-		networkmanagerapplet 
-		open-vm-tools 
-		docker
-		gnumake
-		google-chrome
-		firefox
+      wget 
+      vim 
+      curl 
+      i3-gaps 
+      i3blocks-gaps 
+      i3lock-pixeled 
+      fish 
+      networkmanager 
+      networkmanagerapplet 
+      open-vm-tools 
+      docker
+      gnumake
+      google-chrome
+      firefox
+      pavucontrol
+      cmake
+      p7zip
+      rofi
+      htop
+      atop
+      iotop
+      strace
+      acpi
+      acpitool
+      xorg.xbacklight
    ];
   nixpkgs.config.allowUnfree = true;
   # Some programs need SUID wrappers, can be configured further or are
@@ -56,12 +67,12 @@
   programs.bash.enableCompletion = true;
   programs.mtr.enable = true;
   programs.gnupg.agent = { enable = true; enableSSHSupport = true; };
-
+  programs.fish.enable = true;
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
- 
+  services.acpid.enable = true; 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
@@ -108,6 +119,7 @@
     isNormalUser = true;
     uid = 1000;
     extraGroups = [ "wheel" "networkmanager" "audio" "video" "docker"];
+    shell = "/run/current-system/sw/bin/fish";
   };
   virtualisation.docker.enable = true;
   # This value determines the NixOS release with which your system is to be
