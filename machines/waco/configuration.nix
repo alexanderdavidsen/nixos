@@ -87,6 +87,7 @@
       bind
       arandr
       siege
+      powertop
    ];
   nixpkgs.config.allowUnfree = true;
   # Some programs need SUID wrappers, can be configured further or are
