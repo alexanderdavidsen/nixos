@@ -23,7 +23,11 @@
     }
   ];
   boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernel.sysctl."net.ipv6.conf.eth0.disable_ipv6" = true;
   networking.hostName = "waco.treg.io"; # Define your hostname.
+  networking.extraHosts = ''
+    127.0.0.1 waco waco.treg.io
+  '';
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Select internationalisation properties.
@@ -38,6 +42,7 @@
 
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
+   environment.variables.EDITOR = "vim";
    environment.systemPackages = with pkgs; [
       wget 
       vim 
@@ -78,6 +83,10 @@
       synergy
       thermald
       quicksynergy
+      httpie
+      bind
+      arandr
+      siege
    ];
   nixpkgs.config.allowUnfree = true;
   # Some programs need SUID wrappers, can be configured further or are
