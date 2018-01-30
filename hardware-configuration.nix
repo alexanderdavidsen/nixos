@@ -1,0 +1,1 @@
+/etc/nixos/machines/waco/hardware-configuration.nix
