@@ -9,7 +9,7 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
     ];
-  boot.kernelParams = [ "intel_pstate=no_hwp" ];
+ boot.kernelParams = [ "intel_pstate=no_hwp"];
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -22,8 +22,10 @@
       allowDiscards = true;
     }
   ];
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  #boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages_4_14;
   boot.kernel.sysctl."net.ipv6.conf.eth0.disable_ipv6" = true;
+  hardware.enableAllFirmware = true;
   networking.hostName = "waco.treg.io"; # Define your hostname.
   networking.extraHosts = ''
     127.0.0.1 waco waco.treg.io
@@ -44,10 +46,10 @@
   # $ nix-env -qaP | grep wget
    environment.variables.EDITOR = "vim";
    environment.systemPackages = with pkgs; [
-      wget 
+      wget
+      bc 
       vim 
       curl 
-      #i3-gaps 
       i3blocks-gaps 
       i3lock-pixeled 
       fish 
@@ -73,6 +75,7 @@
       xcalib
       termite
       gnupg
+      pinentry
       python36
       python27
       compton
@@ -88,6 +91,18 @@
       arandr
       siege
       powertop
+      usbutils
+      yubikey-personalization
+      libressl
+      file
+      git-crypt
+      awscli
+      gettext
+      polybar
+      dunst
+      libnotify
+      jq
+      nox
    ];
   nixpkgs.config.allowUnfree = true;
   # Some programs need SUID wrappers, can be configured further or are
@@ -96,6 +111,16 @@
   programs.mtr.enable = true;
   programs.gnupg.agent = { enable = true; enableSSHSupport = true; };
   programs.fish.enable = true;
+  programs.light.enable = true;
+  nixpkgs.config.packageOverrides = pkgs: {
+    polybar = pkgs.polybar.override {
+      alsaSupport = true;
+      i3GapsSupport = true;
+      iwSupport = true;
+      githubSupport = true;
+      mpdSupport = true;
+  };
+};
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
@@ -105,7 +130,10 @@
   services.thermald.enable = true;
   services.synergy.server.enable = true;
   services.synergy.server.autoStart = true;
-  # Open ports in the firewall.
+  services.udev.packages = with pkgs; [
+    yubikey-personalization
+  ];
+# Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [ 24800 ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
@@ -115,8 +143,8 @@
   # services.printing.enable = true;
 
   # Enable the X11 windowing system.
-   services.xserver.enable = true;
-   services.xserver.layout = "no";
+  services.xserver.enable = true;
+  services.xserver.layout = "no";
   # services.xserver.xkbOptions = "eurosign:e";
 
   # Enable touchpad support.
@@ -143,6 +171,8 @@
       source-code-pro
       source-sans-pro
       source-serif-pro
+      unifont
+      siji
     ];
   };
 
