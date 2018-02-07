@@ -26,12 +26,10 @@
   boot.kernelPackages = pkgs.linuxPackages_4_14;
   boot.kernel.sysctl."net.ipv6.conf.eth0.disable_ipv6" = true;
   hardware.enableAllFirmware = true;
-  networking.hostName = "waco.treg.io"; # Define your hostname.
+  networking.hostName = "waco"; # Define your hostname.
   networking.extraHosts = ''
-    127.0.0.1 waco waco.treg.io
+    127.0.0.1 waco
   '';
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
   # Select internationalisation properties.
   i18n = {
    # consoleFont = "Lat2-Terminus16";
@@ -42,8 +40,6 @@
   # Set your time zone.
   time.timeZone = "Europe/Oslo";
 
-  # List packages installed in system profile. To search by name, run:
-  # $ nix-env -qaP | grep wget
    environment.variables.EDITOR = "vim";
    environment.systemPackages = with pkgs; [
       wget
@@ -102,11 +98,14 @@
       dunst
       libnotify
       jq
+      scrot
+      xclip
       nox
+      tcpdump
+      wireshark
+      openvpn
    ];
   nixpkgs.config.allowUnfree = true;
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
   programs.bash.enableCompletion = true;
   programs.mtr.enable = true;
   programs.gnupg.agent = { enable = true; enableSSHSupport = true; };
@@ -121,9 +120,6 @@
       mpdSupport = true;
   };
 };
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
   services.tlp.enable = true;
   services.openssh.enable = true;
   services.acpid.enable = true;
@@ -133,14 +129,9 @@
   services.udev.packages = with pkgs; [
     yubikey-personalization
   ];
-# Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [ 24800 ];
   # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
   #networking.firewall.enable = false;
-
-  # Enable CUPS to print documents.
-  # services.printing.enable = true;
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
@@ -184,14 +175,6 @@
     shell = "/run/current-system/sw/bin/fish";
   };
   virtualisation.docker.enable = true;
-  # This value determines the NixOS release with which your system is to be
-  # compatible, in order to avoid breaking some software such as database
-  # servers. You should change this only after NixOS release notes say you
-  # should.
-  # This value determines the NixOS release with which your system is to be
-  # compatible, in order to avoid breaking some software such as database
-  # servers. You should change this only after NixOS release notes say you
-  # should.
   system.stateVersion = "17.09"; # Did you read the comment?
 
 }
