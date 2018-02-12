@@ -40,86 +40,106 @@
   # Set your time zone.
   time.timeZone = "Europe/Oslo";
 
-   environment.variables.EDITOR = "vim";
-   environment.systemPackages = with pkgs; [
-      wget
-      bc 
-      vim 
-      curl 
-      i3blocks-gaps 
-      i3lock-pixeled 
-      fish 
-      networkmanager 
-      networkmanagerapplet 
-      open-vm-tools 
-      docker
-      gnumake
-      google-chrome
-      firefox
-      pavucontrol
-      cmake
-      p7zip
-      rofi
-      htop
-      atop
-      iotop
-      strace
-      acpi
-      acpitool
-      xorg.xbacklight
-      proxychains
-      xcalib
-      termite
-      gnupg
-      pinentry
-      python36
-      python27
-      compton
-      gitAndTools.gitFull
-      gitAndTools.hub
-      slack
-      spotify
-      synergy
-      thermald
-      quicksynergy
-      httpie
-      bind
-      arandr
-      siege
-      powertop
-      usbutils
-      yubikey-personalization
-      libressl
-      file
-      git-crypt
-      awscli
-      gettext
-      polybar
-      dunst
-      libnotify
-      jq
-      scrot
-      xclip
-      nox
-      tcpdump
-      wireshark
-      openvpn
-   ];
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config = 
+  {
+    # Allow proprietary packages
+    allowUnfree = true;
+
+    # Create an alias for the unstable channel
+    packageOverrides = pkgs: 
+    {
+      polybar = pkgs.polybar.override {
+        alsaSupport = true;
+        i3GapsSupport = true;
+        iwSupport = true;
+        githubSupport = true;
+        mpdSupport = true;
+      };
+    unstable = import <nixos-unstable> 
+      { 
+        # pass the nixpkgs config to the unstable alias
+        # to ensure `allowUnfree = true;` is propagated:
+        config = config.nixpkgs.config; 
+      };
+    };
+  };
+
+  environment.variables.EDITOR = "vim";
+  environment.systemPackages = with pkgs; [
+    wget
+    bc 
+    vim 
+    curl 
+    i3blocks-gaps 
+    i3lock-pixeled 
+    fish 
+    networkmanager 
+    networkmanagerapplet 
+    open-vm-tools 
+    docker
+    gnumake
+    google-chrome
+    firefox
+    pavucontrol
+    cmake
+    p7zip
+    rofi
+    htop
+    atop
+    iotop
+    strace
+    acpi
+    acpitool
+    xorg.xbacklight
+    proxychains
+    xcalib
+    termite
+    gnupg
+    pinentry
+    python36
+    python27
+    compton
+    gitAndTools.gitFull
+    gitAndTools.hub
+    unstable.slack
+    spotify
+    synergy
+    thermald
+    quicksynergy
+    httpie
+    bind
+    arandr
+    siege
+    powertop
+    usbutils
+    yubikey-personalization
+    libressl
+    file
+    git-crypt
+    awscli
+    gettext
+    polybar
+    dunst
+    libnotify
+    jq
+    scrot
+    xclip
+    nox
+    tcpdump
+    wireshark
+    openvpn
+    neofetch
+    neovim
+    nox
+    ranger
+    scrot
+    xclip
+  ];
   programs.bash.enableCompletion = true;
   programs.mtr.enable = true;
   programs.gnupg.agent = { enable = true; enableSSHSupport = true; };
   programs.fish.enable = true;
   programs.light.enable = true;
-  nixpkgs.config.packageOverrides = pkgs: {
-    polybar = pkgs.polybar.override {
-      alsaSupport = true;
-      i3GapsSupport = true;
-      iwSupport = true;
-      githubSupport = true;
-      mpdSupport = true;
-  };
-};
   services.tlp.enable = true;
   services.openssh.enable = true;
   services.acpid.enable = true;
@@ -172,7 +192,7 @@
     isNormalUser = true;
     uid = 1000;
     extraGroups = [ "wheel" "networkmanager" "audio" "video" "docker"];
-    shell = "/run/current-system/sw/bin/fish";
+    #shell = "/run/current-system/sw/bin/fish";
   };
   virtualisation.docker.enable = true;
   system.stateVersion = "17.09"; # Did you read the comment?
