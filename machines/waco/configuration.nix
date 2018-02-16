@@ -134,6 +134,17 @@
     ranger
     scrot
     xclip
+    unstable.autorandr
+    disper
+    unstable.gopass
+    kbfs
+    keybase
+    keybase-gui
+    nix-repl
+    nox
+    qtpass
+    xclip
+   python27Packages.docker_compose
   ];
   programs.bash.enableCompletion = true;
   programs.mtr.enable = true;
@@ -146,6 +157,7 @@
   services.thermald.enable = true;
   services.synergy.server.enable = true;
   services.synergy.server.autoStart = true;
+  services.autorandr.enable = true;
   services.udev.packages = with pkgs; [
     yubikey-personalization
   ];
