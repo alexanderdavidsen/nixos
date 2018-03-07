@@ -13,7 +13,6 @@
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-
   boot.initrd.luks.devices = [
     {
       name = "root";
@@ -144,13 +143,21 @@
     nox
     qtpass
     xclip
-   python27Packages.docker_compose
+    python27Packages.docker_compose
+    psmisc
+    python36Packages.requests
+    unstable.vscode
+    unstable.minikube
+    unzip
+    playerctl
+    clang
   ];
   programs.bash.enableCompletion = true;
   programs.mtr.enable = true;
   programs.gnupg.agent = { enable = true; enableSSHSupport = true; };
   programs.fish.enable = true;
   programs.light.enable = true;
+  virtualisation.virtualbox.host.enable = true;
   services.tlp.enable = true;
   services.openssh.enable = true;
   services.acpid.enable = true;
@@ -196,6 +203,7 @@
       source-serif-pro
       unifont
       siji
+      hack-font
     ];
   };
 
@@ -203,7 +211,7 @@
   users.extraUsers.davalex = {
     isNormalUser = true;
     uid = 1000;
-    extraGroups = [ "wheel" "networkmanager" "audio" "video" "docker"];
+    extraGroups = [ "wheel" "networkmanager" "audio" "video" "docker" "vboxusers"];
     #shell = "/run/current-system/sw/bin/fish";
   };
   virtualisation.docker.enable = true;
