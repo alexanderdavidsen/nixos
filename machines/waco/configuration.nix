@@ -92,7 +92,6 @@
     xorg.xbacklight
     proxychains
     xcalib
-    termite
     gnupg
     pinentry
     python36
@@ -133,7 +132,6 @@
     ranger
     scrot
     xclip
-    unstable.autorandr
     disper
     unstable.gopass
     kbfs
@@ -151,6 +149,9 @@
     unzip
     playerctl
     clang
+    fzf
+    unstable.yadm
+    shellcheck
   ];
   programs.bash.enableCompletion = true;
   programs.mtr.enable = true;
